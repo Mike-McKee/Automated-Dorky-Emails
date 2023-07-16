@@ -13,7 +13,8 @@ def scraper(url):
     content_list = soup.find_all('div', class_="collection-item w-dyn-item w-col w-col-6")
 
     #TODO: figure out how to order dictionary so that we start with the oldest blog posts first
-
+    content_list.reverse()
+    
     for index, item in enumerate(content_list,start=1):
         date = item.find('div',class_="piece_date_style")
         summary = item.find('div',class_="piece_descr_style")
