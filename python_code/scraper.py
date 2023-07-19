@@ -1,7 +1,17 @@
+"""
+This is the first web scraping code I wrote for this project.
+It scraps data from my blog and inserts it into a MySQL table.
+
+But moving forward, I can't run this code every time or else it'll consistently add
+duplicates into my databases.
+
+So check out "updated_scraper.py" for the more flexible version of this.
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import pymysql.cursors
-import SECRET_PASSWORD
+from PASSWORD import SECRET_PASSWORD
 
 def update_url(url):
     """
