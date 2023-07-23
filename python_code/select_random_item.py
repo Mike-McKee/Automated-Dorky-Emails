@@ -1,8 +1,7 @@
 import pymysql.cursors
-from PASSWORD import SECRET_PASSWORD
 import random
 from access_mysql import access_mysql
-from updated_scraper import change_time
+from time_functions import change_time
 
 # Returns list of IDs from progress table where status is 1 (aka good to use)
 def find_search_range():
@@ -67,8 +66,6 @@ def change_item_status(id):
             cursor.execute(sql)
         
         db.commit()
-    
-    print("===========================PROGRESS TABLE SUCCESSFULLY CHANGED===========================")
 
 # Once all rows have status = 0, this function resets all values back to 1
 def reset_status():
@@ -86,6 +83,11 @@ def reset_status():
 
 #We'll import this into the script that sends an email
 def email_item():
+    """
+    Returns a random row from the blog_items table in MySQL
+    
+    Ex: [7, 'The Lazy (Yet Genius) Coder', '66 Days of Math and Programming -- Day 3', 'https://www.dorkydata.com/dorky-blog/the-lazy-yet-genius-coder', 'July 05, 2023']
+    """
     search_range = find_search_range()
     
     #run when all rows have status = 0
@@ -98,5 +100,3 @@ def email_item():
     change_item_status(num)
 
     return item
-
-print(email_item())
