@@ -172,7 +172,7 @@ def insert_into_mysql(dict):
 
         db.commit()
     
-    return "DATA SUCCESSFULLY ADDED TO TABLE"
+    print("====================DATA SUCCESSFULLY ADDED TO TABLE====================")
 
 
 def main(url):
@@ -182,5 +182,5 @@ def main(url):
 
 
 
-print(main('https://www.dorkydata.com/dorky-blog'))
+main('https://www.dorkydata.com/dorky-blog')
 
