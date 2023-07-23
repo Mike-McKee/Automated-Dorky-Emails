@@ -9,18 +9,9 @@ Here, I'm doing the following:
 import requests
 from bs4 import BeautifulSoup
 import pymysql.cursors
-from PASSWORD import SECRET_PASSWORD
 from datetime import datetime
-
-def access_mysql():
-    USERNAME = SECRET_PASSWORD.USERNAME
-    PASSWORD = SECRET_PASSWORD.PASSWORD
-
-    db = pymysql.connect(user=USERNAME, password=PASSWORD,
-                             host='127.0.0.1',
-                             database='dorky_blog_emails')
-    
-    return db
+from time_functions import change_time, reverse_time
+from access_mysql import access_mysql
 
 def update_url(url):
     """
@@ -70,28 +61,6 @@ def recent_date():
             result = cursor.fetchone()
         
     return result[0]
-
-def change_time(date_):
-    # date_object = date_[0]
-    date_object = datetime.strftime(date_, '%B %d, %Y')
-    
-    return date_object
-
-def reverse_time(date_):
-    """
-    Takes string with the following format: 'July 17, 2023'
-
-    And using datetime.strptime(), we turn the string into a datetime object with the
-    same format.
-
-    Then using datetime.strftime(), we turn the datetime object back into a string but with the
-    following format: 2023-07-17
-    """
-    date_object = datetime.strptime(date_, '%B %d, %Y')
-    new_date = date_object.strftime('%Y-%m-%d')
-
-
-    return new_date
 
 def is_date_greater(test_date, baseline):
     #baseline will be recent_date() function
@@ -171,16 +140,16 @@ def insert_into_mysql(dict):
             cursor.close()
 
         db.commit()
-    
-    print("====================DATA SUCCESSFULLY ADDED TO TABLE====================")
 
 
 def main(url):
     data = updated_scraper(url,recent_date(),highest_id_num())
 
-    return insert_into_mysql(data)
+    insert_into_mysql(data)
+
+    return "====================DATA SUCCESSFULLY ADDED TO TABLE===================="
 
 
 
-main('https://www.dorkydata.com/dorky-blog')
+print(main('https://www.dorkydata.com/dorky-blog'))
 
