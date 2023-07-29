@@ -4,6 +4,7 @@ from firebase_admin import db
 from SECRETS import database_url
 from time_functions import change_time
 import random
+from update_status import update_status
 
 def initialize_app():
     #Getting permission to access Firebase Realtime Database
@@ -39,7 +40,6 @@ def reset_status(status_data):
         })
 
 def get_random_item():
-    # initialize_app()
 
     ref = db.reference('/')
     user_ref = ref.child('status')
@@ -64,16 +64,10 @@ def get_random_item():
     item_data = return_item[item_key]
     
     rand_item = [item_data['ID'],item_data['date'],item_data['link'],item_data['summary'],item_data['title']]
+
+    update_status(rand_item[0])
     
     return rand_item
 
-
-def edit_status(arr):
-    id_to_change = arr[0]
-    ref = db.reference('/status')
-    new_status = {'ID':id_to_change,'status':0}
-    ref.update({id_to_change:new_status})
-
-    return arr
-
-print(edit_status(get_random_item()))
+if __name__ == '__main__':
+    print(get_random_item())
