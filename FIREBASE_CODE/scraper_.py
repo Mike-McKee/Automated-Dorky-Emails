@@ -16,13 +16,26 @@ def initialize_app():
 initialize_app()
 
 def get_last_item() -> dict:
-    """Returns a dictionary containing all items in the highest indexed DB item"""
+    """
+    Returns a dictionary containing all items in the highest indexed DB item
+    
+    Return Dictionary looks like this:
+
+        {
+            'Date': 'July 28, 2023',
+            'Link': 'https://dorkydata.com/dorky-blog/my-most-important-blog-post-ever',
+            'Summary': '66 Days of Math and Programming -- Day 26',
+            'Title': 'My Most Important Blog Post Ever',
+            'ID': '30'
+        }
+    """
     ref = db.reference('/item_id')
     get_items = ref.order_by_key().limit_to_last(1).get()
 
     item_key = list(get_items.keys())[0]
     new_dict = get_items[item_key]
     dict_items = {key: new_dict[key] for key in new_dict.keys()}
+    dict_items['ID'] = int(item_key)
     return dict_items
 
 def highest_id_num(last_item: dict):
@@ -121,10 +134,11 @@ def scraper(url: str) -> dict:
         title = item.find('div',class_="piece_name_style")
         link = item.find('a').get('href')
         items_to_add[index] = {
-                        'Title': title.text.strip(),
-                        'Summary': summary.text.strip(),
-                        'Link': update_url(url) + link,
-                        'Date': date.text.strip()
+                        'ID': index,
+                        'title': title.text.strip(),
+                        'summary': summary.text.strip(),
+                        'link': update_url(url) + link,
+                        'date': date.text.strip()
                         }
             
     return items_to_add
@@ -152,3 +166,4 @@ def update_firebase(data: dict):
 if __name__ == "__main__":
     data = scraper('https://dorkydata.com/dorky-blog')
     update_firebase(data)
+    # print(get_last_item())
