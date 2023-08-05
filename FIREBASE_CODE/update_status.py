@@ -8,11 +8,11 @@ def initialize_app():
     cred = credentials.Certificate("SECRETS/firebase_sdk_key.json")
     firebase_admin.initialize_app(cred,{'databaseURL':database_url.URL})
 
-def update_status(*indexes: int):
+def update_status(*indexes: int) -> None:
     status_ref = db.reference('/status')
     updates = {}
     for index in indexes:
-        updates[index] = {'ID': index, 'status':0}
+        updates[index] = {'ID': index, 'status':1}
     status_ref.update(updates)
     
 if __name__ == '__main__':
@@ -20,3 +20,4 @@ if __name__ == '__main__':
     initialize_app()
     # for i in range(1,32):
     #     update_status(i)
+    # update_status(1,4,5,8,16,23,46)

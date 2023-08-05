@@ -1,14 +1,23 @@
+import sys
+import os
+import random
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from SECRETS import database_url
 from time_functions import change_time
-import random
 from update_status import update_status
+
+
 
 def initialize_app():
     #Getting permission to access Firebase Realtime Database
-    cred = credentials.Certificate("SECRETS/firebase_sdk_key.json")
+    # cred = credentials.Certificate("SECRETS/firebase_sdk_key.json")
+    cred = credentials.Certificate(os.path.join(script_dir,"SECRETS/firebase_sdk_key.json"))
     firebase_admin.initialize_app(cred,{'databaseURL':database_url.URL})
 
 initialize_app()

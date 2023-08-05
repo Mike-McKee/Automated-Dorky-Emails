@@ -140,7 +140,8 @@ def scraper(url: str) -> dict:
                         'link': update_url(url) + link,
                         'date': date.text.strip()
                         }
-            
+
+    print("=======================DORKY BLOG SUCCESSFULLY SCRAPED=======================")        
     return items_to_add
 
 def update_firebase(data: dict):
@@ -162,6 +163,8 @@ def update_firebase(data: dict):
         status_ref.update({
             key: status_data
         })
+
+    print("=======================FIREBASE SUCCESSFULLY UPDATED=======================")
 
 if __name__ == "__main__":
     data = scraper('https://dorkydata.com/dorky-blog')
